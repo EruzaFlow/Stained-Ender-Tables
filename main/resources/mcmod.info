@@ -1,14 +1,14 @@
 [
 {
-  "modid": "stainedendertables",
+  "modid": "StainedEnderTables",
   "name": "Stained Ender Tables",
   "description": "Adds Stained Ender Tables used for exploration and adventuring.",
-  "version": "${version}",
+  "version": "${mod_version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["EruzaFlow"],
-  "credits": "The Forge and FML guys, for making forge.  CPW/progwml6 & diesieben07 for having their mods open source, helped solve problems I was facing.",
+  "credits": "",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []
