@@ -3,7 +3,7 @@
   "modid": "StainedEnderTables",
   "name": "Stained Ender Tables",
   "description": "Adds Stained Ender Tables used for exploration and adventuring.",
-  "version": "${mod_version}",
+  "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

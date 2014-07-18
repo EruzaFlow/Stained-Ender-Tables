@@ -94,18 +94,26 @@ public class BlockEnderTable extends BlockColored {
 			double [] destCoordsCentered = EnderTableLogic.centerCoordinates(destCoords);
 			Random rand = new Random();
 			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
-			IMessage message = new MessageSpawnParticles(EnderTableLogic.centerCoordinates(posX, posY, posZ));
-			TargetPoint point = new TargetPoint(world.provider.dimensionId, posX, posY, posZ, 50);
-			PacketHandler.INSTANCE.sendToAllAround(message, point);
+			sendSpawnParticlesPacket(world, EnderTableLogic.centerCoordinates(posX, posY, posZ));
 			teleport(world, entityPlayer, destCoordsCentered[0], destCoordsCentered[1], destCoordsCentered[2]);
 			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
 			EnderTableLogic.playerTeleported(entityPlayer);
-			IMessage message2 = new MessageSpawnParticles(destCoordsCentered);
-			TargetPoint point2 = new TargetPoint(world.provider.dimensionId, destCoordsCentered[0], destCoordsCentered[1], destCoordsCentered[2], 50);
-			PacketHandler.INSTANCE.sendToAllAround(message2, point2);
+			sendSpawnParticlesPacket(world, destCoordsCentered);
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sends the packet which triggers particle spawning on the client
+	 * 
+	 * @param world
+	 * @param coords
+	 */
+	private void sendSpawnParticlesPacket(World world, double[] coords) {
+		IMessage message2 = new MessageSpawnParticles(coords);
+		TargetPoint point2 = new TargetPoint(world.provider.dimensionId, coords[0], coords[1], coords[2], 64);
+		PacketHandler.INSTANCE.sendToAllAround(message2, point2);
 	}
 
 	/**
