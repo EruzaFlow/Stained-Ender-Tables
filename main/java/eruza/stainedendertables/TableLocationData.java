@@ -12,7 +12,7 @@ import net.minecraftforge.common.util.Constants;
 
 public class TableLocationData extends WorldSavedData {
 	/**
-	 * Stores the location, color (respectively) of ender tables.  This is per dimension.
+	 * Stores the location and color (respectively) of ender tables.
 	 */
 	protected HashMap<String, String> points = new HashMap<String, String>();
 	private static String IDENTIFIER = "StainedEnderTables";
@@ -86,9 +86,9 @@ public class TableLocationData extends WorldSavedData {
 		this.points.remove(location);
 		markDirty();
 	}
-	
+
 	/**
-	 * Returns the appropriate instance of this class for the given world.
+	 * Returns the appropriate instance of this class for the given world and dimension.
 	 * 
 	 * @param world
 	 * @return The instance of this class corresponding to world
@@ -101,5 +101,4 @@ public class TableLocationData extends WorldSavedData {
 		}
 		return data;
 	}
-
 }

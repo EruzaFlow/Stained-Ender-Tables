@@ -16,7 +16,7 @@ public class EnderTableUtilities
 	private static HashMap<UUID, Long> playerLastTeleport = new HashMap<UUID, Long>();
 
 	private EnderTableUtilities() {}
-	
+
 	/**
 	 * Converts a point in string format to an array of doubles
 	 *
@@ -88,8 +88,9 @@ public class EnderTableUtilities
 	 * @param destCoords point to be centered
 	 * @return centered coords in an array
 	 */
-	public static double[] centerCoordinates(int[] destCoords)
+	public static double[] centerCoordinates(String coords)
 	{
+		int[] destCoords = stringToCoords(coords);
 		return centerCoordinates(destCoords[0], destCoords[1], destCoords[2]);
 	}
 
@@ -109,7 +110,7 @@ public class EnderTableUtilities
 		coords[2] = z + 0.5D;
 		return coords;
 	}
-	
+
 	/**
 	 * Checks if it's been at least 500 milliseconds since the player last teleported, this is
 	 * so that the player doesn't accidentally teleport again. Also checks that the player
@@ -125,16 +126,15 @@ public class EnderTableUtilities
 			long lastTeleport = playerLastTeleport.get(entityPlayer.getUniqueID());
 			if(System.currentTimeMillis()-lastTeleport < 500) return false;
 		}
-		System.out.println("WORLD is remote: " + world.isRemote);
 		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.difficultyBasedBehavior()) {
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
-				entityPlayer.addChatComponentMessage(new ChatComponentText("You need an ender pearl to use the Ender Table on Hard difficulty"));
+				entityPlayer.addChatComponentMessage(new ChatComponentText("You need an ender pearl to use the ender table on hard difficulty"));
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Stores the player's last teleport time in {@link #playerLastTeleport}
 	 * 

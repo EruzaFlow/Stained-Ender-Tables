@@ -12,7 +12,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 
 public class MessageSpawnParticles implements IMessage, IMessageHandler<MessageSpawnParticles, IMessage> {
 	public double x, y, z;
-	
+
 	public MessageSpawnParticles() {}
 
 	public MessageSpawnParticles(double[] coords) {

@@ -1,6 +1,3 @@
 package eruza.stainedendertables.network;
 
-public class CommonProxy
-{
-
-}
+public class CommonProxy {}

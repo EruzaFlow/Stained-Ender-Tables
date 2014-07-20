@@ -11,11 +11,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.EnumDifficulty;
@@ -69,15 +67,11 @@ public class BlockEnderTable extends BlockColored {
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item p_149666_1_, CreativeTabs p_149666_2_, List subItems)
 	{
-		for (int i = 0; i < 16; ++i)
-		{
-			subItems.add(new ItemStack(p_149666_1_, 1, i));
-		}
+		for (int i = 0; i < 16; ++i) subItems.add(new ItemStack(p_149666_1_, 1, i));
 	}
 
-	private String colorFormatted(int i) {
-		String color = ItemDye.field_150921_b[i].toString();
-		return color;
+	private String getColor(int metadata) {
+		return ItemDye.field_150921_b[metadata].toString();
 	}
 
 	/**
@@ -86,12 +80,11 @@ public class BlockEnderTable extends BlockColored {
 	@Override
 	public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 	{
-		String color = colorFormatted(this.getDamageValue(world, posX, posY, posZ));
+		String color = getColor(this.getDamageValue(world, posX, posY, posZ));
 		String dest = EnderTableUtilities.getClosestEnderTable(world, color, posX, posY, posZ);
 		if (EnderTableUtilities.canActivate(entityPlayer, world) && dest != null)
 		{
-			int[] destCoords = EnderTableUtilities.stringToCoords(dest);
-			double [] destCoordsCentered = EnderTableUtilities.centerCoordinates(destCoords);
+			double [] destCoordsCentered = EnderTableUtilities.centerCoordinates(dest);
 			Random rand = new Random();
 			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
 			sendSpawnParticlesPacket(world, EnderTableUtilities.centerCoordinates(posX, posY, posZ));
@@ -163,7 +156,7 @@ public class BlockEnderTable extends BlockColored {
 		if (!world.isRemote)
 		{
 			TableLocationData data = TableLocationData.getData(world);
-			data.addEnderTable(world, colorFormatted(this.getDamageValue(world, posX, posY, posZ)), posX, posY, posZ);			
+			data.addEnderTable(world, getColor(this.getDamageValue(world, posX, posY, posZ)), posX, posY, posZ);			
 		}
 	}
 
@@ -197,7 +190,7 @@ public class BlockEnderTable extends BlockColored {
 		icons = new IIcon[48];
 		for(int i=0;i<16;i++) {
 			int colorArrayLocation = i*3;
-			String name = this.getTextureName() + this.colorFormatted(i) + "_ender_table";
+			String name = this.getTextureName() + this.getColor(i) + "_ender_table";
 			icons[colorArrayLocation] = par1IconRegister.registerIcon(name + "_" + "bottom");
 			icons[colorArrayLocation+1] = par1IconRegister.registerIcon(name + "_" + "top");
 			icons[colorArrayLocation+2] = par1IconRegister.registerIcon(name + "_" + "side");
