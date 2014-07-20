@@ -11,9 +11,11 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
-public class EnderTableLogic
+public class EnderTableUtilities
 {
 	private static HashMap<UUID, Long> playerLastTeleport = new HashMap<UUID, Long>();
+
+	private EnderTableUtilities() {}
 	
 	/**
 	 * Converts a point in string format to an array of doubles
@@ -109,15 +111,6 @@ public class EnderTableLogic
 	}
 	
 	/**
-	 * Stores the player's last teleport time in {@link #playerLastTeleport}
-	 * 
-	 * @param player The player that teleported
-	 */
-	public static void playerTeleported(EntityPlayer player) {
-		playerLastTeleport.put(player.getUniqueID(), System.currentTimeMillis());
-	}
-	
-	/**
 	 * Checks if it's been at least 500 milliseconds since the player last teleported, this is
 	 * so that the player doesn't accidentally teleport again. Also checks that the player
 	 * has an ender pearl if {@link StainedEnderTables#difficultyBasedBehavior()} is true and
@@ -128,15 +121,26 @@ public class EnderTableLogic
 	 * @return
 	 */
 	public static boolean canActivate(EntityPlayer entityPlayer, World world) {
+		if(!playerLastTeleport.isEmpty()) {
+			long lastTeleport = playerLastTeleport.get(entityPlayer.getUniqueID());
+			if(System.currentTimeMillis()-lastTeleport < 500) return false;
+		}
+		System.out.println("WORLD is remote: " + world.isRemote);
 		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.difficultyBasedBehavior()) {
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
 				entityPlayer.addChatComponentMessage(new ChatComponentText("You need an ender pearl to use the Ender Table on Hard difficulty"));
 				return false;
 			}
 		}
-		if(playerLastTeleport.isEmpty()) return true;
-		long lastTeleport = playerLastTeleport.get(entityPlayer.getUniqueID());
-		if(System.currentTimeMillis()-lastTeleport < 500) return false;
 		return true;
+	}
+	
+	/**
+	 * Stores the player's last teleport time in {@link #playerLastTeleport}
+	 * 
+	 * @param player The player that teleported
+	 */
+	public static void playerTeleported(EntityPlayer player) {
+		playerLastTeleport.put(player.getUniqueID(), System.currentTimeMillis());
 	}
 }

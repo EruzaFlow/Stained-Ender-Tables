@@ -11,9 +11,11 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.EnumDifficulty;
@@ -24,7 +26,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import eruza.stainedendertables.EnderTableLogic;
+import eruza.stainedendertables.EnderTableUtilities;
 import eruza.stainedendertables.ModInfo;
 import eruza.stainedendertables.StainedEnderTables;
 import eruza.stainedendertables.TableLocationData;
@@ -84,25 +86,24 @@ public class BlockEnderTable extends BlockColored {
 	@Override
 	public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 	{
-
 		String color = colorFormatted(this.getDamageValue(world, posX, posY, posZ));
-		String dest = EnderTableLogic.getClosestEnderTable(world, color, posX, posY, posZ);
-
-		if (dest != null && EnderTableLogic.canActivate(entityPlayer, world))
+		String dest = EnderTableUtilities.getClosestEnderTable(world, color, posX, posY, posZ);
+		if (EnderTableUtilities.canActivate(entityPlayer, world) && dest != null)
 		{
-			int[] destCoords = EnderTableLogic.stringToCoords(dest);
-			double [] destCoordsCentered = EnderTableLogic.centerCoordinates(destCoords);
+			int[] destCoords = EnderTableUtilities.stringToCoords(dest);
+			double [] destCoordsCentered = EnderTableUtilities.centerCoordinates(destCoords);
 			Random rand = new Random();
 			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
-			sendSpawnParticlesPacket(world, EnderTableLogic.centerCoordinates(posX, posY, posZ));
+			sendSpawnParticlesPacket(world, EnderTableUtilities.centerCoordinates(posX, posY, posZ));
 			teleport(world, entityPlayer, destCoordsCentered[0], destCoordsCentered[1], destCoordsCentered[2]);
 			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
-			EnderTableLogic.playerTeleported(entityPlayer);
+			EnderTableUtilities.playerTeleported(entityPlayer);
 			sendSpawnParticlesPacket(world, destCoordsCentered);
 		}
-
 		return true;
 	}
+
+
 
 	/**
 	 * Sends the packet which triggers particle spawning on the client
@@ -141,7 +142,6 @@ public class BlockEnderTable extends BlockColored {
 			}
 		}
 	}
-	
 
 	/**
 	 * If difficulty based behavior is off in config it always hurts the player.  Otherwise
