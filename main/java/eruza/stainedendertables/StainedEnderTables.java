@@ -44,7 +44,7 @@ public class StainedEnderTables
 		System.out.println("CONFIG FILE: " + configFile.getAbsolutePath());
 		Configuration config = new Configuration(configFile);
 		config.load();
-		dbb = config.getBoolean("Difficulty Based Behavior", "Stained Ender Tables", true, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
+		dbb = config.getBoolean("Difficulty Based Behavior", "Stained Ender Tables", false, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
 		config.save();
 		PacketHandler.init();
 	}
