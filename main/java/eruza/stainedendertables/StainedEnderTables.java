@@ -3,6 +3,7 @@ package eruza.stainedendertables;
 import java.io.File;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -60,7 +61,7 @@ public class StainedEnderTables
 
 		ItemStack eyeStack = new ItemStack(Items.ender_eye);
 		ItemStack pearlStack = new ItemStack(Items.ender_pearl);
-		ItemStack clayStack = new ItemStack(Items.clay_ball);
+		ItemStack clayStack = new ItemStack(Blocks.clay);
 		ItemStack diamondStack = new ItemStack(Items.diamond);
 		GameRegistry.addRecipe(new ItemStack(blockEnderClay), " E ", "DCD", "CPC",
 				'E', eyeStack, 'D', diamondStack, 'C', clayStack, 'P', pearlStack);
