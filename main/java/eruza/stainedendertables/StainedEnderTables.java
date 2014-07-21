@@ -19,7 +19,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import eruza.stainedendertables.blocks.BlockEnderClay;
 import eruza.stainedendertables.blocks.BlockEnderTable;
 import eruza.stainedendertables.blocks.BlockHardenedEnderClay;
-import eruza.stainedendertables.config.SETConfigGuiFactory;
 import eruza.stainedendertables.network.CommonProxy;
 import eruza.stainedendertables.network.PacketHandler;
 
@@ -43,7 +42,7 @@ public class StainedEnderTables
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		FMLCommonHandler.instance().bus().register(new EventListener());
-		
+
 		String dir = event.getModConfigurationDirectory().getAbsolutePath();
 		File configFile = new File(dir + File.separator + ModInfo.MOD_ID.toLowerCase() + ".cfg");
 		config = new Configuration(configFile);
@@ -89,7 +88,7 @@ public class StainedEnderTables
 	{
 		FMLCommonHandler.instance().getMinecraftServerInstance();
 	}
-	
+
 	public static void setConfig() {
 		dbb = config.getBoolean("Difficulty Based Behavior", Configuration.CATEGORY_GENERAL, false, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
 		System.out.println("Config set to " + dbb);
