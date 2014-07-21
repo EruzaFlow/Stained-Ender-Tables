@@ -127,7 +127,6 @@ public class BlockEnderTable extends BlockColored {
 				if (!MinecraftForge.EVENT_BUS.post(event)) {
 					if (entityPlayer.isRiding()) entityPlayer.mountEntity((Entity)null);
 					entityPlayer.setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
-					System.out.println("Hurt player? "+hurtPlayer(world));
 					if (hurtPlayer(world)) {
 						entityPlayer.fallDistance = 0.0F;
 						entityPlayer.attackEntityFrom(DamageSource.fall, event.attackDamage);

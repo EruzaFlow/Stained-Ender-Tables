@@ -91,7 +91,6 @@ public class StainedEnderTables
 
 	public static void setConfig() {
 		dbb = config.getBoolean("Difficulty Based Behavior", Configuration.CATEGORY_GENERAL, false, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
-		System.out.println("Config set to " + dbb);
 		config.save();
 	}
 

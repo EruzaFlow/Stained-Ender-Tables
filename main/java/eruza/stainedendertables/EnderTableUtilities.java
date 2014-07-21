@@ -127,7 +127,6 @@ public class EnderTableUtilities
 			if(System.currentTimeMillis()-lastTeleport < 500) return false;
 		}
 		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
-			System.out.println("DIFFICULTY: " + world.difficultySetting);
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
 				if(!world.isRemote) entityPlayer.addChatComponentMessage(new ChatComponentText("You have no ender pearls"));
 				return false;
