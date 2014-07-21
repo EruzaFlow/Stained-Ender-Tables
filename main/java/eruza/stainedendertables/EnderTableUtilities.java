@@ -114,7 +114,7 @@ public class EnderTableUtilities
 	/**
 	 * Checks if it's been at least 500 milliseconds since the player last teleported, this is
 	 * so that the player doesn't accidentally teleport again. Also checks that the player
-	 * has an ender pearl if {@link StainedEnderTables#difficultyBasedBehavior()} is true and
+	 * has an ender pearl if {@link StainedEnderTables#isDifficultyBasedBehaviorEnabled()} is true and
 	 * the game is on hard difficulty.
 	 * 
 	 * @param entityPlayer
@@ -126,9 +126,10 @@ public class EnderTableUtilities
 			long lastTeleport = playerLastTeleport.get(entityPlayer.getUniqueID());
 			if(System.currentTimeMillis()-lastTeleport < 500) return false;
 		}
-		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.difficultyBasedBehavior()) {
+		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
+			System.out.println("DIFFICULTY: " + world.difficultySetting);
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
-				entityPlayer.addChatComponentMessage(new ChatComponentText("You need an ender pearl to use the ender table on hard difficulty"));
+				if(!world.isRemote) entityPlayer.addChatComponentMessage(new ChatComponentText("You have no ender pearls"));
 				return false;
 			}
 		}

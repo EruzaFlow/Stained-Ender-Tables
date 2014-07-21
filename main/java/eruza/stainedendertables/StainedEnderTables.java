@@ -19,15 +19,17 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import eruza.stainedendertables.blocks.BlockEnderClay;
 import eruza.stainedendertables.blocks.BlockEnderTable;
 import eruza.stainedendertables.blocks.BlockHardenedEnderClay;
+import eruza.stainedendertables.config.SETConfigGuiFactory;
 import eruza.stainedendertables.network.CommonProxy;
 import eruza.stainedendertables.network.PacketHandler;
 
-@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, version = ModInfo.VERSION)
+@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, guiFactory = ModInfo.GUI_FACTORY, version = ModInfo.VERSION)
 public class StainedEnderTables
 {
 	@Instance(ModInfo.MOD_ID)
 	public static StainedEnderTables instance;
 	public static final String ModId = ModInfo.MOD_ID;
+	public static Configuration config;
 
 	private static Block blockEnderClay;
 	private static Block blockHardenedEnderClay;
@@ -40,13 +42,13 @@ public class StainedEnderTables
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
+		FMLCommonHandler.instance().bus().register(new EventListener());
+		
 		String dir = event.getModConfigurationDirectory().getAbsolutePath();
 		File configFile = new File(dir + File.separator + ModInfo.MOD_ID.toLowerCase() + ".cfg");
-		System.out.println("CONFIG FILE: " + configFile.getAbsolutePath());
-		Configuration config = new Configuration(configFile);
+		config = new Configuration(configFile);
 		config.load();
-		dbb = config.getBoolean("Difficulty Based Behavior", "Stained Ender Tables", false, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
-		config.save();
+		setConfig();
 		PacketHandler.init();
 	}
 
@@ -87,13 +89,19 @@ public class StainedEnderTables
 	{
 		FMLCommonHandler.instance().getMinecraftServerInstance();
 	}
+	
+	public static void setConfig() {
+		dbb = config.getBoolean("Difficulty Based Behavior", Configuration.CATEGORY_GENERAL, false, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
+		System.out.println("Config set to " + dbb);
+		config.save();
+	}
 
 	/**
 	 * Difficulty based behavior. If enabled the behavior of ender tables is based on difficulty.
 	 * 
 	 * @return {@link #dbb}
 	 */
-	public static boolean difficultyBasedBehavior()
+	public static boolean isDifficultyBasedBehaviorEnabled()
 	{
 		return dbb;
 	}
