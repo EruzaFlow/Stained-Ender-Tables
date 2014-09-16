@@ -1,10 +1,14 @@
 package eruza.stainedendertables.network;
 
+import io.netty.buffer.ByteBuf;
+
+import java.util.Random;
+
+import net.minecraft.world.World;
+import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
-import eruza.stainedendertables.StainedEnderTables;
-import io.netty.buffer.ByteBuf;
 
 public class MessageSpawnParticles implements IMessage, IMessageHandler<MessageSpawnParticles, IMessage> {
 	public double x, y, z;
@@ -19,8 +23,12 @@ public class MessageSpawnParticles implements IMessage, IMessageHandler<MessageS
 
 	@Override
 	public IMessage onMessage(MessageSpawnParticles message, MessageContext ctx) {
-        // Added proxy method to avoid crashes on the server.
-        StainedEnderTables.proxy.spawnParticles(message.x, message.y, message.z);
+		World world = FMLClientHandler.instance().getClient().theWorld;
+		Random rand = new Random();
+		for (int i = 0; i < 32; ++i)
+		{
+			world.spawnParticle("portal", message.x, message.y + rand.nextDouble() * 2.0D, message.z, rand.nextGaussian(), 0.0D, rand.nextGaussian());
+		}
 		return null;
 	}
 
