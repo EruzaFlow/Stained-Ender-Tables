@@ -11,7 +11,6 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -21,12 +20,15 @@ import eruza.stainedendertables.blocks.BlockEnderTable;
 import eruza.stainedendertables.blocks.BlockHardenedEnderClay;
 import eruza.stainedendertables.network.PacketHandler;
 
-@Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, guiFactory = ModInfo.GUI_FACTORY, version = ModInfo.VERSION)
+@Mod(modid = StainedEnderTables.MOD_ID, name = StainedEnderTables.MOD_NAME, guiFactory = StainedEnderTables.GUI_FACTORY, version = StainedEnderTables.VERSION)
 public class StainedEnderTables
 {
-	@Instance(ModInfo.MOD_ID)
+	@Instance(StainedEnderTables.MOD_ID)
 	public static StainedEnderTables instance;
-	public static final String ModId = ModInfo.MOD_ID;
+	public static final String MOD_ID = "StainedEnderTables";
+	public static final String MOD_NAME = "Stained Ender Tables";
+	public static final String VERSION = "1.0.2";
+	public static final String GUI_FACTORY = "eruza.stainedendertables.config.SETConfigGuiFactory";
 	public static Configuration config;
 
 	private static Block blockEnderClay;
@@ -40,7 +42,7 @@ public class StainedEnderTables
 		FMLCommonHandler.instance().bus().register(new EventListener());
 
 		String dir = event.getModConfigurationDirectory().getAbsolutePath();
-		File configFile = new File(dir + File.separator + ModInfo.MOD_ID + ".cfg");
+		File configFile = new File(dir + File.separator + StainedEnderTables.MOD_ID + ".cfg");
 		config = new Configuration(configFile);
 		config.load();
 		setConfig();

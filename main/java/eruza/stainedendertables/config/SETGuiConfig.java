@@ -8,7 +8,6 @@ import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.IConfigElement;
-import eruza.stainedendertables.ModInfo;
 import eruza.stainedendertables.StainedEnderTables;
 
 
@@ -17,7 +16,7 @@ import eruza.stainedendertables.StainedEnderTables;
 public class SETGuiConfig extends GuiConfig {
 
 	public SETGuiConfig(GuiScreen parentScreen) {
-		super(parentScreen, getConfigElements(), ModInfo.MOD_ID, false, false, GuiConfig.getAbridgedConfigPath(StainedEnderTables.config.toString()));
+		super(parentScreen, getConfigElements(), StainedEnderTables.MOD_ID, false, false, GuiConfig.getAbridgedConfigPath(StainedEnderTables.config.toString()));
 	}
 
 	public static List<IConfigElement> getConfigElements() {

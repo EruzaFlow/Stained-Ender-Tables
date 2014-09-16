@@ -25,7 +25,6 @@ import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import eruza.stainedendertables.EnderTableUtilities;
-import eruza.stainedendertables.ModInfo;
 import eruza.stainedendertables.StainedEnderTables;
 import eruza.stainedendertables.TableLocationData;
 import eruza.stainedendertables.network.MessageSpawnParticles;
@@ -44,7 +43,7 @@ public class BlockEnderTable extends BlockColored {
 		this.setHardness(4.0F);
 		this.setResistance(9.0F);
 		this.setBlockName("enderTable");
-		this.textureName = ModInfo.MOD_ID + ":";
+		this.textureName = StainedEnderTables.MOD_ID + ":";
 	}
 
 	/**

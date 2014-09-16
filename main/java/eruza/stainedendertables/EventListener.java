@@ -7,7 +7,7 @@ public class EventListener {
 
 	@SubscribeEvent
 	public void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event){
-		if (event.modID.equals(ModInfo.MOD_ID)) StainedEnderTables.setConfig();
+		if (event.modID.equals(StainedEnderTables.MOD_ID)) StainedEnderTables.setConfig();
 	}
 
 }

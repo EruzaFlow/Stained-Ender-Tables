@@ -7,7 +7,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.IIcon;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import eruza.stainedendertables.ModInfo;
+import eruza.stainedendertables.StainedEnderTables;
 
 public class BlockHardenedEnderClay extends Block
 {
@@ -25,7 +25,7 @@ public class BlockHardenedEnderClay extends Block
 		this.setHardness(4.0F);
 		this.setResistance(9.0F);
 		this.setBlockName("hardenedEnderClay");
-		this.textureName = ModInfo.MOD_ID + ":hardened_ender_clay";
+		this.textureName = StainedEnderTables.MOD_ID + ":hardened_ender_clay";
 	}
 
 	/**
