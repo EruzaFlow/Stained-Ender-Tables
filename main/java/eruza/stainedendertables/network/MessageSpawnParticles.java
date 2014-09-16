@@ -9,6 +9,8 @@ import cpw.mods.fml.client.FMLClientHandler;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.common.network.simpleimpl.IMessageHandler;
 import cpw.mods.fml.common.network.simpleimpl.MessageContext;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class MessageSpawnParticles implements IMessage, IMessageHandler<MessageSpawnParticles, IMessage> {
 	public double x, y, z;
@@ -22,6 +24,7 @@ public class MessageSpawnParticles implements IMessage, IMessageHandler<MessageS
 	}
 
 	@Override
+	@SideOnly(Side.CLIENT)
 	public IMessage onMessage(MessageSpawnParticles message, MessageContext ctx) {
 		World world = FMLClientHandler.instance().getClient().theWorld;
 		Random rand = new Random();

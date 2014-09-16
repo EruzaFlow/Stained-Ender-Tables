@@ -19,7 +19,6 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import eruza.stainedendertables.blocks.BlockEnderClay;
 import eruza.stainedendertables.blocks.BlockEnderTable;
 import eruza.stainedendertables.blocks.BlockHardenedEnderClay;
-import eruza.stainedendertables.network.CommonProxy;
 import eruza.stainedendertables.network.PacketHandler;
 
 @Mod(modid = ModInfo.MOD_ID, name = ModInfo.MOD_NAME, guiFactory = ModInfo.GUI_FACTORY, version = ModInfo.VERSION)
@@ -35,16 +34,13 @@ public class StainedEnderTables
 	private static Block blockEnderTable;
 	private static boolean dbb;
 
-	@SidedProxy(clientSide = "eruza.stainedendertables.network.ClientProxy", serverSide = "eruza.stainedendertables.network.CommonProxy")
-	public static CommonProxy proxy;
-
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
 	{
 		FMLCommonHandler.instance().bus().register(new EventListener());
 
 		String dir = event.getModConfigurationDirectory().getAbsolutePath();
-		File configFile = new File(dir + File.separator + ModInfo.MOD_ID.toLowerCase() + ".cfg");
+		File configFile = new File(dir + File.separator + ModInfo.MOD_ID + ".cfg");
 		config = new Configuration(configFile);
 		config.load();
 		setConfig();
