@@ -23,6 +23,7 @@ import eruza.stainedendertables.blocks.BlockEnderTable;
 import eruza.stainedendertables.blocks.BlockHardenedEnderClay;
 import eruza.stainedendertables.config.EventListener;
 import eruza.stainedendertables.network.PacketHandler;
+import eruza.stainedendertables.utilities.SETLog;
 
 @Mod(modid = StainedEnderTables.MOD_ID, name = StainedEnderTables.MOD_NAME, guiFactory = StainedEnderTables.GUI_FACTORY, version = StainedEnderTables.VERSION)
 public class StainedEnderTables
@@ -57,7 +58,9 @@ public class StainedEnderTables
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
-		instantiateBlocks();
+		blockEnderClay = new BlockEnderClay();
+		blockHardenedEnderClay = new BlockHardenedEnderClay();
+		blockEnderTable = new BlockEnderTable();
 
 		GameRegistry.registerBlock(blockEnderClay, "blockEnderClay");
 		GameRegistry.registerBlock(blockHardenedEnderClay, "blockHardenedEnderClay");
@@ -76,13 +79,6 @@ public class StainedEnderTables
 			String dye = "dye" + Character.toUpperCase(color.charAt(0)) + color.substring(1);
 			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blockEnderTable, 1, i), "dustRedstone", dye, hardenedEnderClay));
 		}
-	}
-
-	private void instantiateBlocks()
-	{
-		blockEnderClay = new BlockEnderClay();
-		blockHardenedEnderClay = new BlockHardenedEnderClay();
-		blockEnderTable = new BlockEnderTable();
 	}
 
 	@EventHandler
