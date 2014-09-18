@@ -14,6 +14,8 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.EnumDifficulty;
@@ -24,11 +26,11 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.network.simpleimpl.IMessage;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import eruza.stainedendertables.EnderTableUtilities;
 import eruza.stainedendertables.StainedEnderTables;
-import eruza.stainedendertables.TableLocationData;
 import eruza.stainedendertables.network.MessageSpawnParticles;
 import eruza.stainedendertables.network.PacketHandler;
+import eruza.stainedendertables.utilities.EnderTableUtilities;
+import eruza.stainedendertables.utilities.TableLocationData;
 
 public class BlockEnderTable extends BlockColored {
 	@SideOnly(Side.CLIENT)

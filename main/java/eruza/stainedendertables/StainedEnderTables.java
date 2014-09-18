@@ -5,8 +5,11 @@ import java.io.File;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -18,6 +21,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import eruza.stainedendertables.blocks.BlockEnderClay;
 import eruza.stainedendertables.blocks.BlockEnderTable;
 import eruza.stainedendertables.blocks.BlockHardenedEnderClay;
+import eruza.stainedendertables.config.EventListener;
 import eruza.stainedendertables.network.PacketHandler;
 
 @Mod(modid = StainedEnderTables.MOD_ID, name = StainedEnderTables.MOD_NAME, guiFactory = StainedEnderTables.GUI_FACTORY, version = StainedEnderTables.VERSION)
@@ -27,7 +31,7 @@ public class StainedEnderTables
 	public static StainedEnderTables instance;
 	public static final String MOD_ID = "StainedEnderTables";
 	public static final String MOD_NAME = "Stained Ender Tables";
-	public static final String VERSION = "1.0.2";
+	public static final String VERSION = "1.0.3";
 	public static final String GUI_FACTORY = "eruza.stainedendertables.config.SETConfigGuiFactory";
 	public static Configuration config;
 
@@ -35,6 +39,7 @@ public class StainedEnderTables
 	private static Block blockHardenedEnderClay;
 	private static Block blockEnderTable;
 	private static boolean dbb;
+	public static boolean debug = false;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -61,16 +66,15 @@ public class StainedEnderTables
 		ItemStack eyeStack = new ItemStack(Items.ender_eye);
 		ItemStack pearlStack = new ItemStack(Items.ender_pearl);
 		ItemStack clayStack = new ItemStack(Blocks.clay);
-		ItemStack diamondStack = new ItemStack(Items.diamond);
-		GameRegistry.addRecipe(new ItemStack(blockEnderClay), " E ", "DCD", "CPC",
-				'E', eyeStack, 'D', diamondStack, 'C', clayStack, 'P', pearlStack);
+		GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(blockEnderClay), " E ", "DCD", "CPC",
+				'E', eyeStack, 'D', "gemDiamond", 'C', clayStack, 'P', pearlStack));
 		ItemStack hardenedEnderClay = new ItemStack(blockHardenedEnderClay);
 		GameRegistry.addSmelting(blockEnderClay, hardenedEnderClay, 0f);
-		ItemStack redDustStack = new ItemStack(Items.redstone);
 		for (int i = 0; i < 16; i++)
 		{
-			ItemStack dyeStack = new ItemStack(Items.dye, 1, i);
-			GameRegistry.addShapelessRecipe(new ItemStack(blockEnderTable, 1, i), redDustStack, dyeStack, hardenedEnderClay);
+			String color = ItemDye.field_150921_b[i].toString();
+			String dye = "dye" + Character.toUpperCase(color.charAt(0)) + color.substring(1);
+			GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(blockEnderTable, 1, i), "dustRedstone", dye, hardenedEnderClay));
 		}
 	}
 

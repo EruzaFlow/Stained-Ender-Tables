@@ -1,4 +1,4 @@
-package eruza.stainedendertables;
+package eruza.stainedendertables.utilities;
 
 import java.util.HashMap;
 import java.util.Iterator;

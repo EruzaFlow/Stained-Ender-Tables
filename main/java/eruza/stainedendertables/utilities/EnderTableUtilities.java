@@ -1,12 +1,14 @@
-package eruza.stainedendertables;
+package eruza.stainedendertables.utilities;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 
+import eruza.stainedendertables.StainedEnderTables;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -122,15 +124,28 @@ public class EnderTableUtilities
 	 * @return
 	 */
 	public static boolean canActivate(EntityPlayer entityPlayer, World world) {
-		if(!playerLastTeleport.isEmpty()) {
-			long lastTeleport = playerLastTeleport.get(entityPlayer.getUniqueID());
-			if(System.currentTimeMillis()-lastTeleport < 500) return false;
-		}
-		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
-			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
-				if(!world.isRemote) entityPlayer.addChatComponentMessage(new ChatComponentText("You have no ender pearls"));
-				return false;
+		try {
+			if(!playerLastTeleport.isEmpty()) {
+				long lastTeleport = playerLastTeleport.get(entityPlayer.getUniqueID());
+				if(System.currentTimeMillis()-lastTeleport < 500) return false;
 			}
+			if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
+				if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
+					if(!world.isRemote) entityPlayer.addChatComponentMessage(new ChatComponentText("You have no ender pearls"));
+					return false;
+				}
+			}
+		} catch (NullPointerException e) {
+			//This is to fix a potential bug.  Server restart required? Couldn't reproduce it.
+			e.printStackTrace();
+			String emsg = "World is " + (world == null ? "null; " : "not null; ");
+			emsg = emsg + "entityPlayer is " + (entityPlayer == null ? "null" : "not null");
+			SETLog.error(emsg);
+			String msg = "Game breaking bug detected, disabled ender table.";
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
+			msg = "Server/game restart should fix it, please send your log to EruzaFlow on minecraftforum.net";
+			MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
+			return false;
 		}
 		return true;
 	}
