@@ -32,7 +32,7 @@ public class StainedEnderTables
 	public static StainedEnderTables instance;
 	public static final String MOD_ID = "StainedEnderTables";
 	public static final String MOD_NAME = "Stained Ender Tables";
-	public static final String VERSION = "1.0.3";
+	public static final String VERSION = "1.0.4";
 	public static final String GUI_FACTORY = "eruza.stainedendertables.config.SETConfigGuiFactory";
 	public static Configuration config;
 
