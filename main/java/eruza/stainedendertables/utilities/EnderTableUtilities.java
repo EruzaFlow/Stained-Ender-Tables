@@ -125,9 +125,9 @@ public class EnderTableUtilities
 	 */
 	public static boolean canActivate(EntityPlayer entityPlayer, World world) {
 		UUID id = entityPlayer.getUniqueID();
-		if(!playerLastTeleport.isEmpty() && playerLastTeleport.get(id) != null) {
-			long lastTeleport = playerLastTeleport.get(id);			
-			if(System.currentTimeMillis()-lastTeleport < 500) return false;
+		if(!playerLastTeleport.isEmpty()) {
+			Long lastTeleport = playerLastTeleport.get(id);		
+			if(lastTeleport != null && System.currentTimeMillis()-lastTeleport < 500) return false;
 		}
 		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
