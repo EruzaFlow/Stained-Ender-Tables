@@ -124,14 +124,10 @@ public class EnderTableUtilities
 	 * @return
 	 */
 	public static boolean canActivate(EntityPlayer entityPlayer, World world) {
-		try {
-			UUID id = entityPlayer.getUniqueID();
-			if(!playerLastTeleport.isEmpty() && playerLastTeleport.get(id) != null) {
-				long lastTeleport = playerLastTeleport.get(id);			
-				if(System.currentTimeMillis()-lastTeleport < 500) return false;
-			}
-		} catch (NullPointerException e) {
-			return errorMessage(entityPlayer, world, e, "lastTeleport line");
+		UUID id = entityPlayer.getUniqueID();
+		if(!playerLastTeleport.isEmpty() && playerLastTeleport.get(id) != null) {
+			long lastTeleport = playerLastTeleport.get(id);			
+			if(System.currentTimeMillis()-lastTeleport < 500) return false;
 		}
 		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
@@ -140,30 +136,6 @@ public class EnderTableUtilities
 			}
 		}
 		return true;
-	}
-
-	private static boolean errorMessage(EntityPlayer entityPlayer, World world,
-			NullPointerException e, String line) {
-		//This is to fix a potential bug.  Server restart required? Couldn't reproduce it.
-		e.printStackTrace();
-		String emsg = "playerLastTeleport is " + playerLastTeleport + " and " + (playerLastTeleport == null ? "null" : "not null");
-		SETLog.error(emsg);
-		if(entityPlayer != null) {
-			emsg = "entityPlayer is not null and " + entityPlayer.getDisplayName() + " " + entityPlayer;
-		}
-		else emsg = "entityPlayer is NULL";
-		SETLog.error(emsg);
-		if(world != null) emsg = "World is not null; isRemote: " + world.isRemote;			
-		else emsg = "World is NULL";
-		SETLog.error(emsg);
-		emsg = "Error at line " + line;
-		SETLog.error(emsg);
-
-		String msg = "Game breaking bug detected, disabled ender table.";
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
-		msg = "Server/game restart should fix it, please send your log to EruzaFlow on minecraftforum.net";
-		MinecraftServer.getServer().getConfigurationManager().sendChatMsg(new ChatComponentText(msg));
-		return false;
 	}
 
 	/**
