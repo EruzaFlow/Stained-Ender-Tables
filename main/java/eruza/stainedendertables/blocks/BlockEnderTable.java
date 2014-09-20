@@ -81,18 +81,20 @@ public class BlockEnderTable extends BlockColored {
 	@Override
 	public boolean onBlockActivated(World world, int posX, int posY, int posZ, EntityPlayer entityPlayer, int par6, float par7, float par8, float par9)
 	{
-		String color = getColor(this.getDamageValue(world, posX, posY, posZ));
-		String dest = EnderTableUtilities.getClosestEnderTable(world, color, posX, posY, posZ);
-		if (EnderTableUtilities.canActivate(entityPlayer, world) && dest != null)
-		{
-			double [] destCoordsCentered = EnderTableUtilities.centerCoordinates(dest);
-			Random rand = new Random();
-			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
-			sendSpawnParticlesPacket(world, EnderTableUtilities.centerCoordinates(posX, posY, posZ));
-			teleport(world, entityPlayer, destCoordsCentered[0], destCoordsCentered[1], destCoordsCentered[2]);
-			world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
-			EnderTableUtilities.playerTeleported(entityPlayer);
-			sendSpawnParticlesPacket(world, destCoordsCentered);
+		if(!world.isRemote) {
+			String color = getColor(this.getDamageValue(world, posX, posY, posZ));
+			String dest = EnderTableUtilities.getClosestEnderTable(world, color, posX, posY, posZ);
+			if (EnderTableUtilities.canActivate(entityPlayer, world) && dest != null)
+			{
+				double [] destCoordsCentered = EnderTableUtilities.centerCoordinates(dest);
+				Random rand = new Random();
+				world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
+				sendSpawnParticlesPacket(world, EnderTableUtilities.centerCoordinates(posX, posY, posZ));
+				teleport(world, entityPlayer, destCoordsCentered[0], destCoordsCentered[1], destCoordsCentered[2]);
+				world.playSoundAtEntity(entityPlayer, "mob.endermen.portal", 1.0F, 1.0F);
+				EnderTableUtilities.playerTeleported(entityPlayer);
+				sendSpawnParticlesPacket(world, destCoordsCentered);
+			}
 		}
 		return true;
 	}
@@ -121,17 +123,15 @@ public class BlockEnderTable extends BlockColored {
 	 * @param posZ Z coord to be teleported to
 	 */
 	private void teleport(World world, EntityPlayer entityPlayer, double posX, double posY, double posZ) {
-		if (!world.isRemote) {
-			EntityPlayerMP entityplayermp = (EntityPlayerMP)entityPlayer;
-			if (entityplayermp.playerNetServerHandler.func_147362_b().isChannelOpen() && entityplayermp.worldObj == world) {
-				EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, posX, posY, posZ, 5.0F);
-				if (!MinecraftForge.EVENT_BUS.post(event)) {
-					if (entityPlayer.isRiding()) entityPlayer.mountEntity((Entity)null);
-					entityPlayer.setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
-					if (hurtPlayer(world)) {
-						entityPlayer.fallDistance = 0.0F;
-						entityPlayer.attackEntityFrom(DamageSource.fall, event.attackDamage);
-					}
+		EntityPlayerMP entityplayermp = (EntityPlayerMP)entityPlayer;
+		if (entityplayermp.playerNetServerHandler.func_147362_b().isChannelOpen() && entityplayermp.worldObj == world) {
+			EnderTeleportEvent event = new EnderTeleportEvent(entityplayermp, posX, posY, posZ, 5.0F);
+			if (!MinecraftForge.EVENT_BUS.post(event)) {
+				if (entityPlayer.isRiding()) entityPlayer.mountEntity((Entity)null);
+				entityPlayer.setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
+				if (hurtPlayer(world)) {
+					entityPlayer.fallDistance = 0.0F;
+					entityPlayer.attackEntityFrom(DamageSource.fall, event.attackDamage);
 				}
 			}
 		}

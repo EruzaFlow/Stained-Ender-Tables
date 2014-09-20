@@ -124,20 +124,14 @@ public class EnderTableUtilities
 	 * @return
 	 */
 	public static boolean canActivate(EntityPlayer entityPlayer, World world) {
-		if(!playerLastTeleport.isEmpty()) {
-			UUID id;
-			long lastTeleport;
-			try {
-				id = entityPlayer.getUniqueID();
-			} catch (NullPointerException e) {
-				return errorMessage(entityPlayer, world, e, "ID line");
+		try {
+			UUID id = entityPlayer.getUniqueID();
+			if(!playerLastTeleport.isEmpty() && playerLastTeleport.get(id) != null) {
+				long lastTeleport = playerLastTeleport.get(id);			
+				if(System.currentTimeMillis()-lastTeleport < 500) return false;
 			}
-			try {
-				lastTeleport = playerLastTeleport.get(id);
-			} catch (NullPointerException e) {
-				return errorMessage(entityPlayer, world, e, "lastTeleport line");
-			}
-			if(System.currentTimeMillis()-lastTeleport < 500) return false;
+		} catch (NullPointerException e) {
+			return errorMessage(entityPlayer, world, e, "lastTeleport line");
 		}
 		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
