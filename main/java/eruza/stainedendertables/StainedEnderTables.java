@@ -39,8 +39,9 @@ public class StainedEnderTables
 	private static Block blockEnderClay;
 	private static Block blockHardenedEnderClay;
 	private static Block blockEnderTable;
-	private static boolean dbb;
 	public static boolean debug = false;
+	private static boolean isFallDamageEnabled;
+	private static boolean consumesEnderPearl;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)
@@ -58,14 +59,17 @@ public class StainedEnderTables
 	@EventHandler
 	public void load(FMLInitializationEvent event)
 	{
+		//Instantiation
 		blockEnderClay = new BlockEnderClay();
 		blockHardenedEnderClay = new BlockHardenedEnderClay();
 		blockEnderTable = new BlockEnderTable();
 
+		//Block registration
 		GameRegistry.registerBlock(blockEnderClay, "blockEnderClay");
 		GameRegistry.registerBlock(blockHardenedEnderClay, "blockHardenedEnderClay");
 		GameRegistry.registerBlock(blockEnderTable, ItemEnderTable.class, "blockEnderTable");
 
+		//Recipe registration
 		ItemStack eyeStack = new ItemStack(Items.ender_eye);
 		ItemStack pearlStack = new ItemStack(Items.ender_pearl);
 		ItemStack clayStack = new ItemStack(Blocks.clay);
@@ -88,17 +92,12 @@ public class StainedEnderTables
 	}
 
 	public static void setConfig() {
-		dbb = config.getBoolean("Difficulty Based Behavior", Configuration.CATEGORY_GENERAL, false, "Enabled: Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. Disabled: Tables deal damage, and do not consume ender pearls on all difficulties.");
+		isFallDamageEnabled = config.getBoolean("Deals Fall Damage", Configuration.CATEGORY_GENERAL, false, "When enabled, Stained Ender Tables deal damage on use identical to an ender pearl");
+		consumesEnderPearl = config.getBoolean("Consumes Ender Pearl", Configuration.CATEGORY_GENERAL, false, "When enabled, Stained Ender Tables consume an ender pearl from the player's inventory on use");
 		config.save();
 	}
 
-	/**
-	 * Difficulty based behavior. If enabled the behavior of ender tables is based on difficulty.
-	 * 
-	 * @return {@link #dbb}
-	 */
-	public static boolean isDifficultyBasedBehaviorEnabled()
-	{
-		return dbb;
-	}
+	//Config options encapsulation
+	public static boolean dealsFallDamage() { return isFallDamageEnabled; }
+	public static boolean consumesEnderPearl() { return consumesEnderPearl; }
 }

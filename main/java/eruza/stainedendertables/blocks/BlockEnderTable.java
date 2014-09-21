@@ -129,25 +129,12 @@ public class BlockEnderTable extends BlockColored {
 			if (!MinecraftForge.EVENT_BUS.post(event)) {
 				if (entityPlayer.isRiding()) entityPlayer.mountEntity((Entity)null);
 				entityPlayer.setPositionAndUpdate(event.targetX, event.targetY, event.targetZ);
-				if (hurtPlayer(world)) {
+				if (StainedEnderTables.dealsFallDamage()) {
 					entityPlayer.fallDistance = 0.0F;
 					entityPlayer.attackEntityFrom(DamageSource.fall, event.attackDamage);
 				}
 			}
 		}
-	}
-
-	/**
-	 * If difficulty based behavior is off in config it always hurts the player.  Otherwise
-	 * it checks against the worlds difficulty and hurts on normal and hard.
-	 * 
-	 * @param world
-	 * @return whether or not to hurt the player after using the ender table
-	 */
-	private boolean hurtPlayer(World world) {
-		if(!StainedEnderTables.isDifficultyBasedBehaviorEnabled()) return true;
-		if(world.difficultySetting == EnumDifficulty.NORMAL || world.difficultySetting == EnumDifficulty.HARD) return true;
-		return false;
 	}
 
 	@Override

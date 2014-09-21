@@ -21,7 +21,8 @@ public class SETGuiConfig extends GuiConfig {
 
 	public static List<IConfigElement> getConfigElements() {
 		List list = new ArrayList<IConfigElement>();
-		list.add(new ConfigElement(StainedEnderTables.config.get(Configuration.CATEGORY_GENERAL, "Difficulty Based Behavior", StainedEnderTables.isDifficultyBasedBehaviorEnabled(), "When true Peaceful/Easy: Tables deal no damage; Normal: Tables deal ender pearl damage; Hard: Tables deal damage and consume an ender pearl. false: Tables deal damage, and do not consume ender pearls.")));
+		list.add(new ConfigElement(StainedEnderTables.config.get(Configuration.CATEGORY_GENERAL, "Deals Fall Damage", StainedEnderTables.dealsFallDamage(), "When enabled, Stained Ender Tables deal damage on use identical to an ender pearl.")));
+		list.add(new ConfigElement(StainedEnderTables.config.get(Configuration.CATEGORY_GENERAL, "Consumes Ender Pearl", StainedEnderTables.consumesEnderPearl(), "When enabled, Stained Ender Tables consume an ender pearl from the player's inventory on use.")));
 		return list;
 	}
 }

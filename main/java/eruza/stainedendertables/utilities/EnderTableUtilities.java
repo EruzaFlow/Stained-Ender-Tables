@@ -116,22 +116,22 @@ public class EnderTableUtilities
 	/**
 	 * Checks if it's been at least 500 milliseconds since the player last teleported, this is
 	 * so that the player doesn't accidentally teleport again. Also checks that the player
-	 * has an ender pearl if {@link StainedEnderTables#isDifficultyBasedBehaviorEnabled()} is true and
-	 * the game is on hard difficulty.
+	 * has an ender pearl if {@link StainedEnderTables#consumesEnderPearl()} is true.
 	 * 
 	 * @param entityPlayer
 	 * @param world
 	 * @return
 	 */
 	public static boolean canActivate(EntityPlayer entityPlayer, World world) {
+		//Verify it's been at least half a second since the player last used a table
 		UUID id = entityPlayer.getUniqueID();
-		if(!playerLastTeleport.isEmpty()) {
-			Long lastTeleport = playerLastTeleport.get(id);		
-			if(lastTeleport != null && System.currentTimeMillis()-lastTeleport < 500) return false;
-		}
-		if(world.difficultySetting == EnumDifficulty.HARD && StainedEnderTables.isDifficultyBasedBehaviorEnabled()) {
+		Long lastTeleport = playerLastTeleport.get(id);
+		if(lastTeleport != null && System.currentTimeMillis()-lastTeleport < 500) return false;
+
+		//Check for ender pearls if required
+		if(StainedEnderTables.consumesEnderPearl() && !entityPlayer.capabilities.isCreativeMode) {
 			if (!entityPlayer.inventory.hasItem(Items.ender_pearl) || !entityPlayer.inventory.consumeInventoryItem(Items.ender_pearl)) {
-				if(!world.isRemote) entityPlayer.addChatComponentMessage(new ChatComponentText("You have no ender pearls"));
+				if(!world.isRemote) entityPlayer.addChatComponentMessage(new ChatComponentText("You must have an ender pearl"));
 				return false;
 			}
 		}
